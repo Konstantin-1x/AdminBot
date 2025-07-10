@@ -35,7 +35,8 @@ public class MessageProcessing {
                     waitingForInput.remove(chatId);
 
                     createTelegramBot.sendMessage(chatId, null,"✅ Название тарифа обновлено на: " + newName);
-                    createTelegramBot.sendAdminMenu(chatId);
+                    Tariff tariff = new TariffDAO().findById(tariffId);
+                    createTelegramBot.sentOneTariff(chatId,tariff);
                     return;
                 }
                 if(state.startsWith("awaiting_descriptionTariff_for")){
@@ -46,7 +47,8 @@ public class MessageProcessing {
                     waitingForInput.remove(chatId);
 
                     createTelegramBot.sendMessage(chatId, null,"✅ Описание тарифа обновлено на: " + newName);
-                    createTelegramBot.sendAdminMenu(chatId);
+                    Tariff tariff = new TariffDAO().findById(tariffId);
+                    createTelegramBot.sentOneTariff(chatId,tariff);
                     return;
                 }
                 if(state.startsWith("awaiting_priceTariff_for")){
@@ -59,7 +61,8 @@ public class MessageProcessing {
 
                         waitingForInput.remove(chatId);
                         createTelegramBot.sendMessage(chatId, null, "✅ Цена тарифа обновлена на: " + newPrice + " ₽");
-                        createTelegramBot.sendAdminMenu(chatId);
+                        Tariff tariff = new TariffDAO().findById(tariffId);
+                        createTelegramBot.sentOneTariff(chatId,tariff);
 
                     } catch (NumberFormatException e) {
                         createTelegramBot.sendMessage(chatId, null, "⚠️ Пожалуйста, введите корректную цену (например: 199.99).");
@@ -73,10 +76,11 @@ public class MessageProcessing {
                     try {
                         int newTerm = Integer.parseInt(newName);
                         new TariffDAO().updateTermById(tariffId, newTerm);
+                        Tariff tariff = new TariffDAO().findById(tariffId);
 
                         waitingForInput.remove(chatId);
                         createTelegramBot.sendMessage(chatId, null, "✅ Продолжительность тарифа обновлена на: " + newTerm + " суток");
-                        createTelegramBot.sendAdminMenu(chatId);
+                        createTelegramBot.sentOneTariff(chatId,tariff);
 
                     } catch (NumberFormatException e) {
                         createTelegramBot.sendMessage(chatId, null, "⚠️ Пожалуйста, введите корректную продолжительность (например: 14).");
@@ -90,10 +94,10 @@ public class MessageProcessing {
                     try {
                         BigDecimal newDiscount = new BigDecimal(newName);
                         new TariffDAO().updateDiscountById(tariffId, newDiscount);
-
                         waitingForInput.remove(chatId);
                         createTelegramBot.sendMessage(chatId, null, "✅ Скидка тарифа обновлена на: " + newDiscount + "%");
-                        createTelegramBot.sendAdminMenu(chatId);
+                        Tariff tariff = new TariffDAO().findById(tariffId);
+                        createTelegramBot.sentOneTariff(chatId,tariff);
 
                     } catch (NumberFormatException e) {
                         createTelegramBot.sendMessage(chatId, null, "⚠️ Пожалуйста, введите корректную скидку (например: 15.2).");
@@ -184,8 +188,6 @@ public class MessageProcessing {
                 }
                 return;
             }
-
-
 
             switch (msg) {
                 case "/start" -> createTelegramBot.sendStart(chatId,update);
