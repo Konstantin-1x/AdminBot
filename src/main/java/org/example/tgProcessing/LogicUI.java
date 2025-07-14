@@ -22,7 +22,6 @@ public class LogicUI {
 
     public void sendStart(long chatId,Update update) {
         Sent sent = new Sent();
-        TelegramBot TelegramBot = new TelegramBot();
         TelegramBotLogs telegramBotLogs = new TelegramBotLogs();
         PeopleDAO peopleDAO = new PeopleDAO();
 
@@ -52,13 +51,10 @@ public class LogicUI {
             people.setUsername(update.getMessage().getFrom().getUserName());
             people.setFirstName(update.getMessage().getFrom().getFirstName());
             people.setUser_flag(true);
-
             sent.sendMessageStart(people, people.getFirstName() + ", Вас приветствует WB бот подписок", sendMessage);
             List<Long> messageIdAndGroup = telegramBotLogs.createTopic(update);
-
-            people.setGroupID(messageIdAndGroup.get(0));
-            people.setId_message(Math.toIntExact(messageIdAndGroup.get(1)));
-
+            people.setGroupID(messageIdAndGroup.getFirst());
+            people.setId_message(Math.toIntExact(messageIdAndGroup.getLast()));
             peopleDAO.save(people);
         }else{
             sent.sendMessage(people,people.getFirstName() + ", с возвращением!", sendMessage);

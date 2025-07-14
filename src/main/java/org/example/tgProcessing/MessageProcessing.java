@@ -1,24 +1,16 @@
-package org.example;
+package org.example.tgProcessing;
 
-import org.example.dao.GroupTGDAO;
 import org.example.dao.PeopleDAO;
 import org.example.dao.TariffDAO;
 import org.example.session.SessionStore;
 import org.example.session.TariffCreationSession;
-import org.example.table.GroupTG;
 import org.example.table.People;
 import org.example.table.Tariff;
-import org.example.tgProcessing.LogicUI;
-import org.example.tgProcessing.Sent;
-import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class MessageProcessing {
