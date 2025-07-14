@@ -31,7 +31,29 @@ public class People {
     @Column(name = "User_flag", nullable = false)
     private boolean user_flag;
 
+    @Column(name = "id_message", nullable = false)
+    private int id_message;
+
+    @Column(name = "groupID")
+    private long groupID;
+
     // Геттеры и сеттеры
+    public long getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(long groupID) {
+        this.groupID = groupID;
+    }
+
+    public int getId_message() {
+        return id_message;
+    }
+
+    public void setId_message(int id_message) {
+        this.id_message = id_message;
+    }
+
     public boolean isActive() {
         return Active;
     }

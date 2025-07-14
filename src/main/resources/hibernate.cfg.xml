@@ -8,8 +8,8 @@
         <!-- Подключение к БД -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/WB_database</property>
-        <property name="hibernate.connection.username">admin</property>
-        <property name="hibernate.connection.password">admin</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password"></property>
 
         <!-- Автоматическое создание таблиц -->
         <property name="hibernate.hbm2ddl.auto">update</property>
@@ -21,5 +21,6 @@
         <!-- Указываем классы-сущности -->
         <mapping class="org.example.table.People"/>
         <mapping class="org.example.table.Tariff"/>
+        <mapping class="org.example.table.GroupTG"/>
     </session-factory>
 </hibernate-configuration>

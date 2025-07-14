@@ -86,6 +86,23 @@ public class PeopleDAO {
         }
     }
 
+    // Добавь этот метод в класс PeopleDAO
+
+    public People findByGroupIdAndIdMessage(long groupId, int idMessage) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "FROM People WHERE groupID = :groupID AND id_message = :id_message";
+            return session.createQuery(hql, People.class)
+                    .setParameter("groupID", groupId)
+                    .setParameter("id_message", idMessage)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
     public void updateUserByTgId(long tgId, boolean user_flag) {
         Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
