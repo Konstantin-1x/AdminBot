@@ -6,6 +6,8 @@ import org.example.session.SessionStore;
 import org.example.session.TariffCreationSession;
 import org.example.table.People;
 import org.example.table.Tariff;
+import org.example.telegramBots.TelegramBot;
+import org.example.tgProcessing.InviteLinkManager;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -340,6 +342,22 @@ public class MessageProcessing {
                 createTelegramBot.sendMessage(people,"Тариф теперь невидим");
             }else {
                 createTelegramBot.sendMessage(people,"Тариф теперь видим");
+            }
+        } else if (data.startsWith("buy_tariffs_")) {
+            int tariffId = Integer.parseInt(data.substring("buy_tariffs_".length()));
+            Tariff tariff = new TariffDAO().findById(tariffId);
+            InviteLinkManager inviteLinkManager = new InviteLinkManager(TelegramBot.INSTANCE);
+            // ID группы, куда надо добавить пользователя
+            // (можно хранить в таблице Tariff или отдельной таблице)
+            String groupId = "-1002815389123";
+            try {
+                String link = inviteLinkManager.createLink(Long.valueOf(groupId));
+                createTelegramBot.sendMessage(people,
+                        "💳 Оплатите тариф «" + tariff.getName() + "» и перейдите по ссылке:\n\n" +
+                                "<a href=\"" + link + "\">👉 Вступить в закрытый канал</a>");
+            } catch (TelegramApiException e) {
+                createTelegramBot.sendMessage(people,
+                        "⚠️ Не удалось создать ссылку. Попробуйте позже.");
             }
         }
 
